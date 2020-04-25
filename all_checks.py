@@ -9,6 +9,7 @@ def check_reboot():
 	return os.path.exists("/run/reboot-required")
 
 def check_disk_full(disk, min_absolute, min_percent):
+	"""Return if disk is full or not."""
 	pass
 
 def main():

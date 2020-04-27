@@ -10,13 +10,23 @@ def check_reboot():
 
 def check_disk_full(disk, min_absolute, min_percent):
 	"""Return if disk is full or not."""
-	pass
+	du = shutil.disk_usage(disk)
+	#Calculate percentage of free space
+	percent_free = 100 * du.free / du.total
+	gigabytes_free = du.free / 2**30
+	if percent_free < min_percent or gigabytes_free < min_absolute:
+		return True
+	return False
 
 def main():
 	if check_reboot():
 		print("pending reboot")
 		sys.exit(1)
-	print("Everything ok")
-	sys.exit(2)
+	if check_disk_full("/", 2, 10):
+		print("Insufficient Space")
+		sys.exit(1)
+	else:
+		print("Everything ok")
+		sys.exit(1)
 
 main()
